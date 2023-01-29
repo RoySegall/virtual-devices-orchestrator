@@ -1,0 +1,13 @@
+{
+  "allowJs": true,
+  "checkJs": false,
+  "target": "ES2020",
+  "baseUrl": ".",
+  "paths": {
+    "*": ["*", "src/*"]
+  },
+  "strictPropertyInitialization": false,
+  "lib": ["ES2020"],
+  "moduleResolution": "nodenext",
+  "esModuleInterop": true
+}

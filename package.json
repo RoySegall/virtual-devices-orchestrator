@@ -1,0 +1,21 @@
+{
+  "name": "virtual-devices-orchestrator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsx ./src/index.ts",
+    "watch": "tsx --watch ./src/index.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "node-simctl": "^7.1.11",
+    "tsx": "^3.12.2",
+    "typescript": "^4.9.4"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.16"
+  }
+}
