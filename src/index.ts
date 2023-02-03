@@ -1,23 +1,11 @@
 import {Simctl} from 'node-simctl';
 import express = require('express');
+import {getRuntimesAndSupportedDevices, resetTMADevices} from "./api";
 
 const app = express();
 app.use(express.json());
 
 const port = 3001
-
-const getRuntimesAndSupportedDevices = async () => {
-    const simctl = new Simctl();
-
-    const devicesAndRuntimes = await simctl.list();
-
-    return devicesAndRuntimes.runtimes.map(runtime => {
-        return {
-            runtimeName: runtime.name,
-            supportedDeviceTypes: runtime.supportedDeviceTypes.map(supportedDeviceType => supportedDeviceType.name)
-        }
-    });
-};
 
 app.get('/runtimesAndDevices', async (req, res) => {
     const runtimesAndSupportedDevices = await getRuntimesAndSupportedDevices();
@@ -53,29 +41,17 @@ app.post('/device', async (req, res) => {
         await simctl.startBootMonitor({timeout: 120000});
     }
 
-    try {
-        await fetch("http://127.0.0.1:8585/api/simulators/refresh", {
-            method: 'POST'
-        });
-    } catch (e) {
-        console.log(e)
-    }
+    await resetTMADevices();
+
     res.json(simctl)
 });
 
 app.delete('/device/:udid', async (req, res) => {
     const simctl = new Simctl();
     simctl.udid = req.params.udid
+
     await simctl.deleteDevice();
-
-
-    try {
-        await fetch("http://127.0.0.1:8585/api/simulators/refresh", {
-            method: 'POST'
-        });
-    } catch (e) {
-        console.log(e)
-    }
+    await resetTMADevices();
 
     res.json({status: 'deleted'})
 });
