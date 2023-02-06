@@ -12,12 +12,3 @@ export const getRuntimesAndSupportedDevices = async () => {
         }
     });
 };
-export const resetTMADevices = async () => {
-    try {
-        await fetch("http://127.0.0.1:8585/api/simulators/refresh", {
-            method: 'POST'
-        });
-    } catch (e) {
-        console.log('Tried to refresh tma devices but got an error', e);
-    }
-}

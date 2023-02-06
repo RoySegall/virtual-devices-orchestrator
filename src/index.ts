@@ -1,6 +1,6 @@
 import {Simctl} from 'node-simctl';
 import express = require('express');
-import {getRuntimesAndSupportedDevices, resetTMADevices} from "./api";
+import {getRuntimesAndSupportedDevices} from "./api";
 
 const app = express();
 app.use(express.json());
@@ -41,8 +41,6 @@ app.post('/device', async (req, res) => {
         await simctl.startBootMonitor({timeout: 120000});
     }
 
-    await resetTMADevices();
-
     res.json(simctl)
 });
 
@@ -51,7 +49,6 @@ app.delete('/device/:udid', async (req, res) => {
     simctl.udid = req.params.udid
 
     await simctl.deleteDevice();
-    await resetTMADevices();
 
     res.json({status: 'deleted'})
 });
